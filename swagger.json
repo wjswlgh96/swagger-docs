@@ -1,1 +1,548 @@
-{"openapi":"3.1.0","info":{"title":"내일배움캠프 TodoList API","version":"v0.1.0"},"servers":[{"url":"http://localhost:8080","description":"Generated server url"}],"tags":[{"name":"Author API","description":"작성자 API"},{"name":"Board API","description":"게시글 API"}],"paths":{"/boards":{"get":{"tags":["Board API"],"summary":"게시글 조회","description":"모든 게시글 목록을 조회합니다.","operationId":"findAllBoards","parameters":[{"name":"created_at","in":"query","description":"게시글 생성 날짜 (형식: YYYY-MM-DD)","required":false,"schema":{"type":"string","description":"게시글 생성 날짜 (형식: YYYY-MM-DD)"}},{"name":"author_id","in":"query","description":"작성자 ID (숫자 입력, 예: 1)","required":false,"schema":{"type":"number","description":"작성자 ID (숫자 입력, 예: 1)"}},{"name":"page","in":"query","description":"페이지 번호 (size와 필수로 함께 사용)","required":false,"schema":{"type":"number","description":"페이지 번호 (size와 필수로 함께 사용)"}},{"name":"size","in":"query","description":"페이지 사이즈 (page와 필수로 함께 사용)","required":false,"schema":{"type":"number","description":"페이지 사이즈 (page와 필수로 함께 사용)"}}],"responses":{"200":{"description":"게시글 조회 기본 응답값","content":{"application/json":{"schema":{"type":"array","items":{"$ref":"#/components/schemas/BoardResponseDto"}}}}}}},"post":{"tags":["Board API"],"summary":"게시글 등록","description":"새로운 게시글을 등록합니다.","operationId":"createBoard","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/BoardRequestDto"}}},"required":true},"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/BoardResponseDto"}}}}}}},"/authors":{"get":{"tags":["Author API"],"summary":"작성자 목록 조회","description":"모든 작성자 목록을 조회합니다.","operationId":"findAllAuthors","responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"type":"array","items":{"$ref":"#/components/schemas/AuthorResponseDto"}}}}}}},"post":{"tags":["Author API"],"summary":"작성자 등록","description":"새로운 작성자를 등록합니다.","operationId":"createAuthor","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/AuthorRequestDto"}}},"required":true},"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/AuthorResponseDto"}}}}}}},"/boards/{id}":{"get":{"tags":["Board API"],"summary":"게시글 상세 조회","description":"주어진 ID로 특정 게시글의 정보를 조회합니다.","operationId":"findBoardById","parameters":[{"name":"id","in":"path","description":"게시글 ID (숫자 입력, 예: 1)","required":true,"schema":{"type":"number"}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/BoardResponseDto"}}}}}},"delete":{"tags":["Board API"],"summary":"게시글 삭제","description":"주어진 ID에 해당하는 게시글을 삭제합니다.","operationId":"deleteBoard","parameters":[{"name":"id","in":"path","description":"게시글 ID (숫자 입력, 예: 1)","required":true,"schema":{"type":"number"}}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/BoardPasswordRequestDto"}}},"required":true},"responses":{"200":{"description":"OK"}}},"patch":{"tags":["Board API"],"summary":"게시글 수정","description":"주어진 ID에 해당하는 게시글의 정보를 수정합니다.","operationId":"updateBoard","parameters":[{"name":"id","in":"path","description":"게시글 ID (숫자 입력, 예: 1)","required":true,"schema":{"type":"number"}}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/BoardUpdateRequestDto"}}},"required":true},"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/BoardResponseDto"}}}}}}},"/authors/{id}":{"get":{"tags":["Author API"],"summary":"특정 작성자 조회","description":"주어진 ID로 특정 작성자의 정보를 조회합니다.","operationId":"findAuthorById","parameters":[{"name":"id","in":"path","description":"작성자 ID (숫자 입력, 예: 1)","required":true,"schema":{"type":"number"}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/AuthorResponseDto"}}}}}},"delete":{"tags":["Author API"],"summary":"작성자 삭제","description":"주어진 ID에 해당하는 작성자를 삭제합니다.","operationId":"deleteAuthor","parameters":[{"name":"id","in":"path","description":"작성자 ID (숫자 입력, 예: 1)","required":true,"schema":{"type":"number"}}],"responses":{"200":{"description":"OK"}}},"patch":{"tags":["Author API"],"summary":"작성자 정보 수정","description":"주어진 ID에 해당하는 작성자의 정보를 수정합니다.","operationId":"updateAuthor","parameters":[{"name":"id","in":"path","description":"작성자 ID (숫자 입력, 예: 1)","required":true,"schema":{"type":"number"}}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/AuthorRequestDto"}}},"required":true},"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/AuthorResponseDto"}}}}}}}},"components":{"schemas":{"BoardRequestDto":{"type":"object","properties":{"authorId":{"type":"integer","format":"int64","description":"작성자 ID 입력 (필수, 예: 1)","example":1},"password":{"type":"string","description":"비밀번호 입력 (필수, 1 ~ 4자리 사이만 가능)","example":1234,"maxLength":4,"minLength":1},"title":{"type":"string","description":"제목 입력 (필수, 최대 50자)","example":"제목입니다.","maxLength":50,"minLength":0},"contents":{"type":"string","description":"할일 입력 (필수, 최대 200자)","example":"오늘의 할일을 적겠습니다.","maxLength":200,"minLength":0}},"required":["authorId","contents","password","title"]},"BoardResponseDto":{"type":"object","properties":{"id":{"type":"integer","format":"int64","example":1},"authorId":{"type":"integer","format":"int64","example":1},"authorName":{"type":"string"},"title":{"type":"string"},"contents":{"type":"string"},"createdAt":{"type":"string","format":"date-time"},"updatedAt":{"type":"string","format":"date-time"}}},"AuthorRequestDto":{"type":"object","properties":{"name":{"type":"string","description":"작성자의 이름 (필수)","example":"홍길동"},"email":{"type":"string","description":"작성자의 이메일 (필수, 중복 불가)","example":"hong@example.com"}},"required":["email","name"]},"AuthorResponseDto":{"type":"object","properties":{"id":{"type":"integer","format":"int64","example":1},"name":{"type":"string"},"email":{"type":"string"},"createdAt":{"type":"string","format":"date-time"},"updatedAt":{"type":"string","format":"date-time"}}},"BoardUpdateRequestDto":{"type":"object","properties":{"password":{"type":"string","description":"비밀번호 입력 (필수, 1 ~ 4자리 사이만 가능)","example":1234,"maxLength":4,"minLength":1},"title":{"type":"string","description":"제목 입력 (필수, 최대 50자)","example":"수정된 제목입니다!!","maxLength":50,"minLength":0},"contents":{"type":"string","description":"할일 입력 (필수, 최대 200자)","example":"수정된 오늘의 할일입니다!!","maxLength":200,"minLength":0}},"required":["contents","password","title"]},"BoardPasswordRequestDto":{"type":"object","properties":{"password":{"type":"string","description":"비밀번호 입력 (필수, 1 ~ 4자리 사이만 가능)","example":1234,"maxLength":4,"minLength":1}},"required":["password"]}}}}
+{
+    "openapi": "3.1.0",
+    "info": {
+      "title": "내일배움캠프 TodoList API",
+      "version": "v0.1.0"
+    },
+    "servers": [
+      {
+        "url": "http://localhost:8080",
+        "description": "Generated server url"
+      }
+    ],
+    "tags": [
+      {
+        "name": "Author API",
+        "description": "작성자 API"
+      },
+      {
+        "name": "Board API",
+        "description": "게시글 API"
+      }
+    ],
+    "paths": {
+      "/boards": {
+        "get": {
+          "tags": [
+            "Board API"
+          ],
+          "summary": "게시글 조회",
+          "description": "모든 게시글 목록을 조회합니다.",
+          "operationId": "findAllBoards",
+          "parameters": [
+            {
+              "name": "created_at",
+              "in": "query",
+              "description": "게시글 생성 날짜 (형식: YYYY-MM-DD)",
+              "required": false,
+              "schema": {
+                "type": "string",
+                "description": "게시글 생성 날짜 (형식: YYYY-MM-DD)"
+              }
+            },
+            {
+              "name": "author_id",
+              "in": "query",
+              "description": "작성자 ID (숫자 입력, 예: 1)",
+              "required": false,
+              "schema": {
+                "type": "number",
+                "description": "작성자 ID (숫자 입력, 예: 1)"
+              }
+            },
+            {
+              "name": "page",
+              "in": "query",
+              "description": "페이지 번호 (size와 필수로 함께 사용)",
+              "required": false,
+              "schema": {
+                "type": "number",
+                "description": "페이지 번호 (size와 필수로 함께 사용)"
+              }
+            },
+            {
+              "name": "size",
+              "in": "query",
+              "description": "페이지 사이즈 (page와 필수로 함께 사용)",
+              "required": false,
+              "schema": {
+                "type": "number",
+                "description": "페이지 사이즈 (page와 필수로 함께 사용)"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "게시글 조회 기본 응답값",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/BoardResponseDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "tags": [
+            "Board API"
+          ],
+          "summary": "게시글 등록",
+          "description": "새로운 게시글을 등록합니다.",
+          "operationId": "createBoard",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BoardRequestDto"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "*/*": {
+                  "schema": {
+                    "$ref": "#/components/schemas/BoardResponseDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/boards/{id}/delete": {
+        "post": {
+          "tags": [
+            "Board API"
+          ],
+          "summary": "게시글 삭제",
+          "description": "주어진 ID에 해당하는 게시글을 삭제합니다.",
+          "operationId": "deleteBoard",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BoardPasswordRequestDto"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "OK"
+            }
+          }
+        }
+      },
+      "/authors": {
+        "get": {
+          "tags": [
+            "Author API"
+          ],
+          "summary": "작성자 목록 조회",
+          "description": "모든 작성자 목록을 조회합니다.",
+          "operationId": "findAllAuthors",
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "*/*": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/AuthorResponseDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "tags": [
+            "Author API"
+          ],
+          "summary": "작성자 등록",
+          "description": "새로운 작성자를 등록합니다.",
+          "operationId": "createAuthor",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorRequestDto"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "*/*": {
+                  "schema": {
+                    "$ref": "#/components/schemas/AuthorResponseDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/boards/{id}": {
+        "get": {
+          "tags": [
+            "Board API"
+          ],
+          "summary": "게시글 상세 조회",
+          "description": "주어진 ID로 특정 게시글의 정보를 조회합니다.",
+          "operationId": "findBoardById",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "게시글 ID (숫자 입력, 예: 1)",
+              "required": true,
+              "schema": {
+                "type": "number"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "*/*": {
+                  "schema": {
+                    "$ref": "#/components/schemas/BoardResponseDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "patch": {
+          "tags": [
+            "Board API"
+          ],
+          "summary": "게시글 수정",
+          "description": "주어진 ID에 해당하는 게시글의 정보를 수정합니다.",
+          "operationId": "updateBoard",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "게시글 ID (숫자 입력, 예: 1)",
+              "required": true,
+              "schema": {
+                "type": "number"
+              }
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BoardUpdateRequestDto"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "*/*": {
+                  "schema": {
+                    "$ref": "#/components/schemas/BoardResponseDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/authors/{id}": {
+        "get": {
+          "tags": [
+            "Author API"
+          ],
+          "summary": "특정 작성자 조회",
+          "description": "주어진 ID로 특정 작성자의 정보를 조회합니다.",
+          "operationId": "findAuthorById",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "작성자 ID (숫자 입력, 예: 1)",
+              "required": true,
+              "schema": {
+                "type": "number"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "*/*": {
+                  "schema": {
+                    "$ref": "#/components/schemas/AuthorResponseDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "Author API"
+          ],
+          "summary": "작성자 삭제",
+          "description": "주어진 ID에 해당하는 작성자를 삭제합니다.",
+          "operationId": "deleteAuthor",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "작성자 ID (숫자 입력, 예: 1)",
+              "required": true,
+              "schema": {
+                "type": "number"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            }
+          }
+        },
+        "patch": {
+          "tags": [
+            "Author API"
+          ],
+          "summary": "작성자 정보 수정",
+          "description": "주어진 ID에 해당하는 작성자의 정보를 수정합니다.",
+          "operationId": "updateAuthor",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "작성자 ID (숫자 입력, 예: 1)",
+              "required": true,
+              "schema": {
+                "type": "number"
+              }
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorRequestDto"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "*/*": {
+                  "schema": {
+                    "$ref": "#/components/schemas/AuthorResponseDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "BoardRequestDto": {
+          "type": "object",
+          "properties": {
+            "authorId": {
+              "type": "integer",
+              "format": "int64",
+              "description": "작성자 ID 입력 (필수, 예: 1)",
+              "example": 1
+            },
+            "password": {
+              "type": "string",
+              "description": "비밀번호 입력 (필수, 1 ~ 4자리 사이만 가능)",
+              "example": 1234,
+              "maxLength": 4,
+              "minLength": 1
+            },
+            "title": {
+              "type": "string",
+              "description": "제목 입력 (필수, 최대 50자)",
+              "example": "제목입니다.",
+              "maxLength": 50,
+              "minLength": 0
+            },
+            "contents": {
+              "type": "string",
+              "description": "할일 입력 (필수, 최대 200자)",
+              "example": "오늘의 할일을 적겠습니다.",
+              "maxLength": 200,
+              "minLength": 0
+            }
+          },
+          "required": [
+            "authorId",
+            "contents",
+            "password",
+            "title"
+          ]
+        },
+        "BoardResponseDto": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64",
+              "example": 1
+            },
+            "authorId": {
+              "type": "integer",
+              "format": "int64",
+              "example": 1
+            },
+            "authorName": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "contents": {
+              "type": "string"
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "updatedAt": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "BoardPasswordRequestDto": {
+          "type": "object",
+          "properties": {
+            "password": {
+              "type": "string",
+              "description": "비밀번호 입력 (필수, 1 ~ 4자리 사이만 가능)",
+              "example": 1234,
+              "maxLength": 4,
+              "minLength": 1
+            }
+          },
+          "required": [
+            "password"
+          ]
+        },
+        "AuthorRequestDto": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "작성자의 이름 (필수)",
+              "example": "홍길동"
+            },
+            "email": {
+              "type": "string",
+              "description": "작성자의 이메일 (필수, 중복 불가)",
+              "example": "hong@example.com"
+            }
+          },
+          "required": [
+            "email",
+            "name"
+          ]
+        },
+        "AuthorResponseDto": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64",
+              "example": 1
+            },
+            "name": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "updatedAt": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "BoardUpdateRequestDto": {
+          "type": "object",
+          "properties": {
+            "password": {
+              "type": "string",
+              "description": "비밀번호 입력 (필수, 1 ~ 4자리 사이만 가능)",
+              "example": 1234,
+              "maxLength": 4,
+              "minLength": 1
+            },
+            "title": {
+              "type": "string",
+              "description": "제목 입력 (필수, 최대 50자)",
+              "example": "수정된 제목입니다!!",
+              "maxLength": 50,
+              "minLength": 0
+            },
+            "contents": {
+              "type": "string",
+              "description": "할일 입력 (필수, 최대 200자)",
+              "example": "수정된 오늘의 할일입니다!!",
+              "maxLength": 200,
+              "minLength": 0
+            }
+          },
+          "required": [
+            "contents",
+            "password",
+            "title"
+          ]
+        }
+      }
+    }
+  }
