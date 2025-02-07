@@ -1,8 +1,8 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "OpenAPI definition",
-    "version": "v0"
+    "title": "내일배움캠프 JPA-Todo API 문서",
+    "version": "v0.1.0"
   },
   "servers": [
     {
@@ -291,7 +291,17 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -325,7 +335,17 @@
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -644,7 +664,7 @@
           "contents": {
             "type": "string",
             "description": "댓글 내용 입력 (필수, 최대 100자)",
-            "example": "댓글 내용 입니다!!",
+            "example": "댓글 내용입니다!!",
             "maxLength": 100,
             "minLength": 0
           }
@@ -705,8 +725,8 @@
           "password": {
             "type": "string",
             "description": "유저의 비밀번호 (필수)",
-            "example": "비밀번호는 4~12 자리만 가능하며, 최소 하나의 대문자와 하나의 특수문자(!, @, #, $, %, ^, &, *)를 포함해야 합니다.",
-            "pattern": "^(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{4,12}$"
+            "example": "비밀번호는 4~16 자리만 가능하며, 최소 하나의 대문자와 하나의 특수문자(!, @, #, $, %, ^, &, *)를 포함해야 합니다.",
+            "pattern": "^(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{4,16}$"
           }
         },
         "required": [
@@ -753,8 +773,8 @@
           "password": {
             "type": "string",
             "description": "유저의 비밀번호 (필수)",
-            "example": "비밀번호는 4~12 자리만 가능하며, 최소 하나의 대문자와 하나의 특수문자(!, @, #, $, %, ^, &, *)를 포함해야 합니다.",
-            "pattern": "^(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{4,12}$"
+            "example": "비밀번호는 4~16 자리만 가능하며, 최소 하나의 대문자와 하나의 특수문자(!, @, #, $, %, ^, &, *)를 포함해야 합니다.",
+            "pattern": "^(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{4,16}$"
           }
         },
         "required": [
@@ -769,13 +789,13 @@
             "type": "string",
             "description": "유저의 기존 비밀번호 (필수)",
             "example": "비밀번호는 4~12 자리만 가능하며, 최소 하나의 대문자와 하나의 특수문자(!, @, #, $, %, ^, &, *)를 포함해야 합니다.",
-            "pattern": "^(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{4,12}$"
+            "pattern": "^(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{4,16}$"
           },
           "newPassword": {
             "type": "string",
             "description": "유저의 새로운 비밀번호 (필수)",
             "example": "비밀번호는 4~12 자리만 가능하며, 최소 하나의 대문자와 하나의 특수문자(!, @, #, $, %, ^, &, *)를 포함해야 합니다.",
-            "pattern": "^(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{4,12}$"
+            "pattern": "^(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{4,16}$"
           }
         },
         "required": [
@@ -812,7 +832,7 @@
           "contents": {
             "type": "string",
             "description": "댓글 내용 입력 (필수, 최대 100자)",
-            "example": "댓글 내용 입니다!!",
+            "example": "수정된 댓글 내용입니다!!",
             "maxLength": 100,
             "minLength": 0
           }
